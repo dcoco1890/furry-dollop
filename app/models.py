@@ -1,5 +1,6 @@
 from . import db
 
+
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
@@ -7,6 +8,6 @@ class User(db.Model):
     hash = db.Column(db.String(200))
     created = db.Column(db.DateTime)
 
-    def __init__(self, name, hash):
-        self.name = name
-        self.hash = hash
+    def __repr__(self):
+        return '<User {}>'.format(self.name)
+

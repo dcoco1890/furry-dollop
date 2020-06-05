@@ -15,8 +15,10 @@ def create_user():
     p = request.args.get('pass')
     session['test'] = 'yes'
     x = session['test']
+    print(x)
     if un and p:
         new_user = User(name=un, hash=p, created=dt.now())
         db.session.add(new_user)
         db.session.commit()
-    return make_response(f"{un} created {x}")
+    users = User.query.all()
+    return render_template("index.html", users=users)
