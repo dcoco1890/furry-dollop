@@ -6,24 +6,37 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/style.css"/>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    <title>{% block title %} {% endblock %} </title>
 
+    <!--    Title Block-->
+    {% block title %} {% endblock %}
 
 </head>
 <body>
-<!--    Nav menu will go here-->
-<nav>
-    <div>
-        <ul>
-            <li>Home</li>
-            <li>Page One</li>
-            <li>Second Page</li>
-        </ul>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">{Furry Dollop}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+
+            <!--        #TODO add this back and toggle for current page-->
+            <!--      Removed for now  <span class="sr-only">(current)</span>-->
+            <a class="nav-item nav-link active" href="/">Home</a>
+            <a class="nav-item nav-link" href="#">My Stuff</a>
+            <a class="nav-item nav-link" href="#">Resize</a>
+            <a class="nav-item nav-link" href="#">Other</a>
+        </div>
     </div>
 </nav>
-{% block main %} {% endblock %}
+{% block main %}
+
+{% endblock %}
 </body>
 </html>
