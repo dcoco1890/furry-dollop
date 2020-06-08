@@ -1,3 +1,37 @@
 html, body {
     background-color: #e1eaf5
 }
+h4 {
+    font-weight: 200;
+}
+
+nav.navbar {
+    margin-bottom: 2rem;
+}
+main {
+    text-align: center;
+}
+div.container {
+    padding: 3rem;
+}
+div#login {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+
+}
+div.login-block {
+    border: 1px solid black;
+    width: 30rem;
+    margin: 0 auto;
+    padding: 1rem;
+}
+input.form-control {
+    display: inline-block;
+    width: auto;
+}
+h4.login-h4 {
+    text-align: left;
+    font-size: 2rem;
+}

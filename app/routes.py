@@ -35,6 +35,7 @@ def login():
     if request.method == 'POST':
         # TODO verify user has entered information in the login form, validate
         # user exists in the db, checkpasshash, redirect to homepage
+        return
     else:
         # GET request on /login takes users to login form
         return render_template('login.html')
