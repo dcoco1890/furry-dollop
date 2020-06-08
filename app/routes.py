@@ -39,3 +39,12 @@ def login():
     else:
         # GET request on /login takes users to login form
         return render_template('login.html')
+
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        return
+    else:
+        return render_template("register.html")
