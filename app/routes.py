@@ -1,4 +1,4 @@
-from flask import request, render_template, make_response, session
+from flask import request, render_template, make_response, session, redirect, flash
 from datetime import datetime as dt
 from flask import current_app as app
 from .models import db, User
@@ -44,7 +44,6 @@ def login():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    # TODO change validation stuff to use flashed messages to prevent hitting the back button
     if request.method == "POST":
         # The page itself has a required tag, so this will probably not ever run
         if not request.form.get("username"):
@@ -52,26 +51,27 @@ def register():
         elif not request.form.get("password"):
             return make_response("No password provided", 404)
         else:
-            # Grab values from form
+            # Grab values from form + db
             u_name = request.form.get('username')
             u_pass = request.form.get('password')
             conf = request.form.get('confirmpass')
-            # If passwords don't match return this
-            if u_pass != conf:
-                return "Passwords must match"
-
-            # Check is a user already exists
             user = User.query.filter(User.name == u_name).first()
+
+            # Verify passwords match, and username is not already taken. Redirect/reload page if true
+            if u_pass != conf:
+                flash("Passwords do not match!")
+                return redirect("/register")
             if user:
-                return make_response(f"{user} already exists", 404)
+                flash("Username already taken!")
+                return redirect("/register")
+
             # Create hash of user's password
             hashed_pass = generate_password_hash(u_pass)
             # Create new user and commit to db
             new_user = User(name=u_name, hash=hashed_pass, created=dt.now())
             db.session.add(new_user)
             db.session.commit()
-            # TODO change this to redirect to login. This was just to test and it worked
-            users = User.query.all()
-            return render_template("index.html", users=users)
+            # Redirect user to login page
+            return redirect("/login")
     else:
         return render_template("register.html")
