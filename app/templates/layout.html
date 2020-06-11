@@ -37,7 +37,7 @@
         <div class="navbar-nav ml-auto">
             <!-- #TODO change this to logout using % .if session.id % -->
             {% if session.user_id %}
-           <a class="nav-item nav-link" href="/logout">Logout</a>
+            <a class="nav-item nav-link" href="/logout">Logout</a>
             {% else %}
             <a class="nav-item nav-link" href="/register">Register</a>
             <a class="nav-item nav-link" href="/login">Login</a>
@@ -52,5 +52,7 @@
         {% endblock %}
     </div>
 </main>
+{% block script %}
+{% endblock %}
 </body>
 </html>

@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% block title %}
+<title>Upload Furry Dollop</title>
+{% endblock %}
+
+{% block main %}
+<div class="row">
+    <div class="col-md-9">
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="picture">
+                    Upload an Image
+                </label>
+                <input type="file" id="picture" name="picture" class="form-control" required>
+                <button type="submit" class="btn btn-outline-dark">Submit</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-3">
+         <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="preview"
+              style="max-width: 250px;">
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    let file_input = $('input[type="file"]');
+    preview = $('#preview');
+    file_input.on("change", function(e){
+        let url = URL.createObjectURL(e.target.files[0]);
+        preview.attr("src", url);
+    });
+
+</script>
+{% endblock %}

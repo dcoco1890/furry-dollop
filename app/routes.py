@@ -1,13 +1,14 @@
-from flask import request, render_template, make_response, session, redirect, flash
+from flask import request, render_template, make_response, session, redirect, flash, url_for
 from datetime import datetime as dt
 from flask import current_app as app
 from .models import db, User
 from werkzeug.security import check_password_hash, generate_password_hash
 
+from .helpfunc import login_required
+
 
 @app.route("/", methods=['GET'])
 def home():
-
     return render_template("index.html")
 
 
@@ -33,6 +34,7 @@ def logout():
     session.clear()
     return redirect("/")
 
+
 @app.route("/login", methods=['GET', 'POST'])
 def login():
 
@@ -52,13 +54,13 @@ def login():
             dbhash = User.query.filter_by(name=u_name).first()
 
             # If no user is found with that name flash msg and redirect to login
-            if dbhash is None:
+            if dbhash is None or not check_password_hash(dbhash.hash, u_pass):
                 flash("Login failed, please try again")
                 return redirect("/login")
             # Do the same thing if the password hash does not match hash val in db
-            if not check_password_hash(dbhash.hash, u_pass):
-                flash("Login failed, please try again")
-                return redirect("/login")
+            # if not check_password_hash(dbhash.hash, u_pass):
+            #     flash("Login failed, please try again")
+            #     return redirect("/login")
 
             session['user_id'] = dbhash.id
             return redirect("/")
@@ -100,3 +102,11 @@ def register():
             return redirect("/login")
     else:
         return render_template("register.html")
+
+
+@app.route("/upload", methods=["GET", "POST"])
+def upload():
+    if request.method == "POST":
+        return redirect(url_for("upload"))
+    else:
+        return render_template("upload.html")
