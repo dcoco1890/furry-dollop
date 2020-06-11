@@ -7,13 +7,14 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 @app.route("/", methods=['GET'])
 def home():
+
     return render_template("index.html")
 
 
 @app.route("/add", methods=['GET'])
 def create_user():
     # Most of this stuff is just testing to make sure things work, will remove
-    #TODO make this better
+    # TODO make this better
     un = request.args.get('user')
     p = request.args.get('pass')
     session['test'] = 'yes'
@@ -27,16 +28,40 @@ def create_user():
     return render_template("index.html", users=users)
 
 
+@app.route("/logout", methods=["GET"])
+def logout():
+    session.clear()
+    return redirect("/")
+
 @app.route("/login", methods=['GET', 'POST'])
 def login():
 
-    # commenting out for now as session is not really set up yet
-    # session.clear
+    # Forget any other user that may be logged in
+    session.clear()
 
     if request.method == 'POST':
-        # TODO verify user has entered information in the login form, validate
-        # user exists in the db, checkpasshash, redirect to homepage
-        return
+        # Just making sure we get valid input from the user
+        if not request.form.get("username"):
+            return make_response("No Username Provided", 404)
+        elif not request.form.get("password"):
+            return make_response("No password provided", 404)
+        else:
+            # Grab values from form + db
+            u_name = request.form.get('username')
+            u_pass = request.form.get('password')
+            dbhash = User.query.filter_by(name=u_name).first()
+
+            # If no user is found with that name flash msg and redirect to login
+            if dbhash is None:
+                flash("Login failed, please try again")
+                return redirect("/login")
+            # Do the same thing if the password hash does not match hash val in db
+            if not check_password_hash(dbhash.hash, u_pass):
+                flash("Login failed, please try again")
+                return redirect("/login")
+
+            session['user_id'] = dbhash.id
+            return redirect("/")
     else:
         # GET request on /login takes users to login form
         return render_template('login.html')
@@ -45,7 +70,7 @@ def login():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-        # The page itself has a required tag, so this will probably not ever run
+        # The page itself has a required html tag, so this will probably not ever run
         if not request.form.get("username"):
             return make_response("No Username Provided", 404)
         elif not request.form.get("password"):

@@ -10,6 +10,13 @@
 
 {% block main %}
 <div class="login-block">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="bg-danger">
+        <h4 class="text-center text-light p-2">{{ messages[0] }}</h4>
+    </div>
+    {% endif %}
+    {% endwith %}
     <div id="h4log">
         <h4 class="login-h4">Welcome Back!</h4>
     </div>
@@ -21,7 +28,8 @@
                        class="form-control" id="user" required>
             </div>
             <div class="form-group">
-                <input type="password" maxlength="25" placeholder="Password" name="password" class="form-control" id="pass"
+                <input type="password" maxlength="25" placeholder="Password" name="password" class="form-control"
+                       id="pass"
                        required>
             </div>
             <button class="btn btn-primary btn-block" type="submit">Log In</button>
