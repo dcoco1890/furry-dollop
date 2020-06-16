@@ -1,10 +1,14 @@
+import os
 from flask import request, render_template, make_response, session, redirect, flash, url_for
 from datetime import datetime as dt
 from flask import current_app as app
 from .models import db, User
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from .helpfunc import login_required
+from .helpfunc import upload_file
+
+
+BUCKET = 'furrydollop'
 
 
 @app.route("/", methods=['GET'])
@@ -107,6 +111,10 @@ def register():
 @app.route("/upload", methods=["GET", "POST"])
 def upload():
     if request.method == "POST":
-        return redirect(url_for("upload"))
+        f = request.files['picture']
+        f.save(os.path.join('uploads', f.filename))
+        upload_file(f"uploads/{f.filename}", BUCKET)
+        return redirect("/")
+
     else:
         return render_template("upload.html")

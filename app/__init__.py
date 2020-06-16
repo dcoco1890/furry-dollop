@@ -1,7 +1,10 @@
+import os
 from flask import Flask, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_session import Session
+from dotenv import load_dotenv
 
+load_dotenv()
 # Global stuff
 db = SQLAlchemy()
 sess = Session()
