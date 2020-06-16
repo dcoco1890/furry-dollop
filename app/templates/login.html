@@ -11,10 +11,10 @@
 {% block main %}
 <div class="login-block">
     {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <div class="bg-danger">
-        <h4 class="text-center text-light p-2">{{ messages[0] }}</h4>
-    </div>
+        {% if messages %}
+        <div class="bg-danger">
+            <h4 class="text-center text-light p-2">{{ messages[0] }}</h4>
+        </div>
     {% endif %}
     {% endwith %}
     <div id="h4log">

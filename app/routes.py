@@ -54,13 +54,13 @@ def login():
             dbhash = User.query.filter_by(name=u_name).first()
 
             # If no user is found with that name flash msg and redirect to login
-            if dbhash is None or not check_password_hash(dbhash.hash, u_pass):
+            if dbhash is None:
                 flash("Login failed, please try again")
-                return redirect("/login")
+                return render_template("/login.html")
             # Do the same thing if the password hash does not match hash val in db
-            # if not check_password_hash(dbhash.hash, u_pass):
-            #     flash("Login failed, please try again")
-            #     return redirect("/login")
+            if not check_password_hash(dbhash.hash, u_pass):
+                flash("Login failed, please try again")
+                return render_template("/login.html")
 
             session['user_id'] = dbhash.id
             return redirect("/")
