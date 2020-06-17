@@ -110,6 +110,8 @@ def register():
 
 @app.route("/upload", methods=["GET", "POST"])
 def upload():
+    # TODO add functionality that uploads things to a user folder? or attach their user id to the picture somehow
+    # Maybe store the link of the picture in the DB and only let users view photos that are in their own db
     if request.method == "POST":
         f = request.files['picture']
         f.save(os.path.join('uploads', f.filename))
