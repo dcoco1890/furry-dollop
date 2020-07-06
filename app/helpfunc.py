@@ -1,11 +1,9 @@
-import boto3
+
 import os
 import requests
+import urllib.parse
 from flask import redirect, render_template, request, session
 from functools import wraps
-# from PIL import Image
-
-BUCKET = 'furrydollop'
 
 
 # writing this for later to require login
@@ -18,15 +16,21 @@ def login_required(f):
     return decorated_function
 
 
-def upload_file(file_name, bucket):
-    # Set object name as name of file provided
-    obj_name = file_name
-    # Activate the boto3 client and tell it I'm using s3
-    s3_client = boto3.client('s3')
-    # Test to see stuff
-    # x = s3_client.list_buckets()
-    # print(x)
-    # Variable res(ponse) is what is returned from the upload
-    res = s3_client.upload_file(file_name, bucket, obj_name)
-    print(res)
-    return res
+# Helper function that calls Merriam Webster API to provide word definitions
+def lookup_word(word):
+    try:
+        k = {'key': os.environ.get('MWDICT_KEY')}
+        r = requests.get(
+            f"https://www.dictionaryapi.com/api/v3/references/collegiate/json/{urllib.parse.quote_plus(word)}",
+            params=k)
+        r.raise_for_status()
+    except requests.RequestException:
+        return None
+
+    try:
+        defined_word = r.json()
+        return defined_word
+    except ValueError:
+        return None
+
+

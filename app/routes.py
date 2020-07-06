@@ -1,36 +1,18 @@
 import os
-from flask import request, render_template, make_response, session, redirect, flash, url_for
+import math
+from flask import request, render_template, make_response, session, redirect, flash, jsonify
 from datetime import datetime as dt
 from flask import current_app as app
 from .models import db, User
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from .helpfunc import upload_file
-
-
-BUCKET = 'furrydollop'
+from .helpfunc import lookup_word
 
 
 @app.route("/", methods=['GET'])
 def home():
+
     return render_template("index.html")
-
-
-@app.route("/add", methods=['GET'])
-def create_user():
-    # Most of this stuff is just testing to make sure things work, will remove
-    # TODO make this better
-    un = request.args.get('user')
-    p = request.args.get('pass')
-    session['test'] = 'yes'
-    x = session['test']
-    print(x)
-    if un and p:
-        new_user = User(name=un, hash=p, created=dt.now())
-        db.session.add(new_user)
-        db.session.commit()
-    users = User.query.all()
-    return render_template("index.html", users=users)
 
 
 @app.route("/logout", methods=["GET"])
@@ -41,7 +23,6 @@ def logout():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-
     # Forget any other user that may be logged in
     session.clear()
 
@@ -65,8 +46,10 @@ def login():
             if not check_password_hash(dbhash.hash, u_pass):
                 flash("Login failed, please try again")
                 return render_template("/login.html")
-
+            # Save user id and name in session
             session['user_id'] = dbhash.id
+            session['user_name'] = dbhash.name
+
             return redirect("/")
     else:
         # GET request on /login takes users to login form
@@ -108,15 +91,15 @@ def register():
         return render_template("register.html")
 
 
-@app.route("/upload", methods=["GET", "POST"])
+@app.route("/lookup", methods=["GET", "POST"])
 def upload():
-    # TODO add functionality that uploads things to a user folder? or attach their user id to the picture somehow
-    # Maybe store the link of the picture in the DB and only let users view photos that are in their own db
     if request.method == "POST":
-        f = request.files['picture']
-        f.save(os.path.join('uploads', f.filename))
-        upload_file(f"uploads/{f.filename}", BUCKET)
-        return redirect("/")
-
+        word = request.form.get("word")
+        defined_word = lookup_word(word)
+        if not defined_word:
+            flash("not working")
+            return redirect("/lookup")
+        else:
+            return jsonify(defined_word)
     else:
-        return render_template("upload.html")
+        return render_template("lookup.html")

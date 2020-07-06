@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block title %}
+<title>Upload Furry Dollop</title>
+{% endblock %}
+
+{% block main %}
+<div class="row">
+    <div class="col">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="bg-danger">
+            <h4 class="text-center text-light p-2">{{ messages[0] }}</h4>
+        </div>
+        {% endif %}
+        {% endwith %}
+        <form action="/lookup" method="post">
+            <div class="form-group">
+                <label for="word">
+                    Enter a search term:
+                </label>
+                <input type="text" id="word" name="word" class="form-control" required>
+                <button type="submit" class="btn btn-outline-dark">Submit</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+<!--    let file_input = $('input[type="file"]');-->
+<!--    preview = $('#preview');-->
+<!--    file_input.on("change", function(e){-->
+<!--        let url = URL.createObjectURL(e.target.files[0]);-->
+<!--        preview.attr("src", url);-->
+<!--    });-->
+
+
+</script>
+{% endblock %}
