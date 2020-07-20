@@ -6,7 +6,7 @@ from flask import current_app as app
 from .models import db, User
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from .helpfunc import lookup_word
+from .helpfunc import lookup_word, strip_fix
 
 
 @app.route("/", methods=['GET'])
@@ -100,6 +100,7 @@ def upload():
             flash("not working")
             return redirect("/lookup")
         else:
+            strip_fix(defined_word)
             return jsonify(defined_word)
     else:
         return render_template("lookup.html")
