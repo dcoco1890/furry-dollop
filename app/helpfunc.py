@@ -57,9 +57,6 @@ def audio_url(aud_list):
             pass
     return nlist
 
-
-
-# Not finished but
 # ------------
 # strip_fix takes in the list returned from API call and converts it into something a little easier for me to use
 # with the application. Should hopefully keep the routes.py & lookup.html from doing to much parsing
@@ -81,14 +78,16 @@ def strip_fix(list_words=None):
     else:
         fixed_list = []
         for item in list_words:
-            new_item = {"shortdef": item["shortdef"], "head": item["hwi"]["hw"], "stems": item["meta"]["stems"]}
             try:
-                new_item["audio"] = audio_url(item["hwi"]["prs"])
-                new_item["quotes"] = item["quotes"]
-            except KeyError as e:
-                print(f"the key [{e}] was not found for this entry")
-                pass
-            fixed_list.append(new_item)
-
-        for x in fixed_list:
-            print(x)
+                new_item = {"shortdef": item["shortdef"], "head": item["hwi"]["hw"], "stems": item["meta"]["stems"]}
+                try:
+                    new_item["audio"] = audio_url(item["hwi"]["prs"])
+                    new_item["quotes"] = item["quotes"]
+                except KeyError as e:
+                    print(f"the key [{e}] was not found for this entry")
+                    pass
+                fixed_list.append(new_item)
+            except TypeError as e:
+                print(f"{e}")
+                return None
+        return fixed_list

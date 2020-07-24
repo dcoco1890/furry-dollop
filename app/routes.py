@@ -100,7 +100,8 @@ def upload():
             flash("not working")
             return redirect("/lookup")
         else:
-            strip_fix(defined_word)
-            return jsonify(defined_word)
+            if strip_fix(defined_word) is None:
+                return render_template("lookup.html", noword=defined_word, q=word)
+            return render_template("lookup.html", yesword=strip_fix(defined_word))
     else:
         return render_template("lookup.html")
