@@ -1,5 +1,5 @@
 html, body {
-    background-color: #e1eaf5
+    background-color: #fff;
 }
 h4 {
     font-weight: 200;
@@ -8,12 +8,15 @@ h4 {
 nav.navbar {
     margin-bottom: 2rem;
 }
+
 main {
     text-align: center;
 }
+
 div.container {
-    padding: 3rem;
+    padding: 0 3rem;
 }
+
 div#login {
     display: flex;
     justify-content: flex-start;
@@ -21,16 +24,62 @@ div#login {
     flex-direction: column;
 
 }
+
+div.input-group {
+    background-color: #2A2E37;
+
+    height: 80px;
+    justify-content: center;
+    align-items: center;
+}
+
+div.input-group::before {
+    content: "";
+    display: block;
+    width: 6px;
+    height: 100%;
+    position: relative;
+    background-color: #00FEDE;
+
+}
+
+div.input-group-append {
+    height: 100%;
+    flex-grow: 1;
+}
+
+button.btn-outline-light {
+    border: none;
+    border-radius: 0;
+    width:100%;
+}
+
+button.btn-outline-light:hover {
+}
+
 div.login-block {
     border: 1px solid black;
     width: 30rem;
     margin: 0 auto;
     padding: 1rem;
 }
-input.form-control {
+
+input.form-control#word{
     display: inline-block;
     width: auto;
+    border: none;
+    flex: none;
+    background-color: #2A2E37;
+    color: #fff;
+    height: 100%;
+    font-size: 30px;
 }
+
+form#search-form {
+    width:30rem;
+    margin: 0 auto;
+}
+
 h4.login-h4 {
     text-align: left;
     font-size: 2rem;
