@@ -28,7 +28,8 @@
         <form action="/lookup" method="post" id="search-form">
             <div class="form-group">
                 <div class="input-group" id="in-gr-lookup">
-                    <input type="text" id="word" name="word" class="form-control" required>
+                    <input type="text" id="word" name="word" class="form-control" placeholder="Enter a search term"
+                           required>
                     <div class="input-group-append" id="in-gr-ap-lookup">
                         <button type="submit" class="btn btn-outline-light">
                             <svg width="1em" height="4em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor"
@@ -66,11 +67,27 @@
         {% for word in yesword %}
         <div class="word-block">
             <div class="row">
-                <div class="col-md-3">
-                    {{ word.head }}
-                </div>
-                <div class="col-md-9">
-                    <p>{{ word.stems }}</p>
+                <div class="col">
+                    <div class="row">
+                        <div class="col-md-3">
+                            {{ word.head }}
+                        </div>
+                        <div class="col-md-9">
+                            <p>{{ word.stems }}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            {% if word.audio %}
+                            <a>{{ word.audio }}</a>
+                            {% else %}
+                            <p class="text-muted">no audio</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-9">
+                            <p>{{ word.shortdef }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -99,6 +116,8 @@ searchNew.on('click', function(e){
     form.submit();
     console.log(form);
 });
+
+
 
 
 
