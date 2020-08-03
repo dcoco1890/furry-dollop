@@ -102,6 +102,6 @@ def upload():
         else:
             if strip_fix(defined_word) is None:
                 return render_template("lookup.html", noword=defined_word, q=word)
-            return render_template("lookup.html", yesword=strip_fix(defined_word))
+            return render_template("lookup.html", yesword=strip_fix(defined_word), word=word)
     else:
         return render_template("lookup.html")

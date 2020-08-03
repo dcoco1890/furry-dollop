@@ -1,6 +1,10 @@
+/* CSS for {Furry Dollop} by Daniel Cohen */
+/* Stuff for all pages */
+
 html, body {
     background-color: #fff;
 }
+
 h4 {
     font-weight: 200;
 }
@@ -17,44 +21,10 @@ div.container {
     padding: 0 3rem;
 }
 
-div#login {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
 
-}
-
-div.input-group {
-    background-color: #2A2E37;
-
-    height: 80px;
-    justify-content: center;
-    align-items: center;
-}
-
-div.input-group::before {
-    content: "";
-    display: block;
-    width: 6px;
-    height: 100%;
-    position: relative;
-    background-color: #00FEDE;
-
-}
-
-div.input-group-append {
-    height: 100%;
-    flex-grow: 1;
-}
-
-button.btn-outline-light {
-    border: none;
-    border-radius: 0;
-    width:100%;
-}
-
-button.btn-outline-light:hover {
+h4.login-h4 {
+    text-align: left;
+    font-size: 2rem;
 }
 
 div.login-block {
@@ -64,11 +34,50 @@ div.login-block {
     padding: 1rem;
 }
 
+div#login {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* -------- Lookup page --------- */
+
+
+div.input-group#in-gr-lookup {
+    background-color: #2A2E37;
+    height: 64px;
+    justify-content: center;
+    align-items: center;
+}
+
+div.input-group#in-gr-lookup::before {
+    content: "";
+    display: block;
+    width: 6px;
+    height: 100%;
+    position: relative;
+    background-color: #00FEDE;
+
+}
+
+div.input-group-append#in-gr-ap-lookup {
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-grow: 0.2;
+}
+
+button.btn-outline-light {
+    border: none;
+    border-radius: 0;
+    width:100%;
+}
+
 input.form-control#word{
     display: inline-block;
     width: auto;
     border: none;
-    flex: none;
     background-color: #2A2E37;
     color: #fff;
     height: 100%;
@@ -76,11 +85,6 @@ input.form-control#word{
 }
 
 form#search-form {
-    width:30rem;
-    margin: 0 auto;
-}
 
-h4.login-h4 {
-    text-align: left;
-    font-size: 2rem;
+    margin: 0 auto;
 }

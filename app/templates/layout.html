@@ -25,34 +25,38 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav mr-auto">
+            {% block navlink %}
 
             <!--        #TODO add this back and toggle for current page-->
             <!--      Removed for now  <span class="sr-only">(current)</span>-->
-            <a class="nav-item nav-link active" href="/">Home</a>
-            <a class="nav-item nav-link" href="#">My Stuff</a>
-            <a class="nav-item nav-link" href="/lookup">Lookup</a>
-            <a class="nav-item nav-link" href="#">Other</a>
 
+            {% endblock %}
         </div>
         <div class="navbar-nav ml-auto">
-            <!-- #TODO change this to logout using % .if session.id % -->
+
             {% if session.user_id %}
             <a class="nav-item nav-link" href="/logout">Logout</a>
             {% else %}
+
             <a class="nav-item nav-link" href="/register">Register</a>
             <a class="nav-item nav-link" href="/login">Login</a>
+
             {% endif %}
+
         </div>
     </div>
 </nav>
 <main>
     <div class="container">
-        {% block main %}
 
+        {% block main %}
         {% endblock %}
+
     </div>
 </main>
+
 {% block script %}
 {% endblock %}
+
 </body>
 </html>

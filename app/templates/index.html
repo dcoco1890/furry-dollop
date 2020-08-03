@@ -1,8 +1,19 @@
 {% extends "layout.html" %}
+
+<!--Title-->
 {% block title %}
 <title>Furry Dollop</title>
 {% endblock %}
 
+<!--Nav -->
+{% block navlink %}
+<a class="nav-item nav-link active" href="/">Home</a>
+<a class="nav-item nav-link" href="#">My Stuff</a>
+<a class="nav-item nav-link" href="/lookup">Lookup</a>
+<a class="nav-item nav-link" href="#">Other</a>
+{% endblock %}
+
+<!--Content-->
 {% block main %}
 <h1>hello</h1>
 {% for item in content %}
