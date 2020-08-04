@@ -18,7 +18,7 @@ main {
 }
 
 div.container {
-    padding: 0 3rem;
+    padding: 0 4rem;
 }
 
 
@@ -42,6 +42,15 @@ div#login {
 }
 
 /* -------- Lookup page --------- */
+
+svg.bi.bi-music-note-beamed {
+    font-size: 2rem;
+}
+
+div.row.outer-row {
+    margin: auto;
+    padding: .75rem 0;
+}
 
 
 div.input-group#in-gr-lookup {
@@ -87,4 +96,15 @@ input.form-control#word{
 form#search-form {
 
     margin: 0 auto;
+}
+
+
+/* -------- Media Queries -------- */
+
+@media only screen and (max-width: 991px) {
+
+    div.container {
+        padding: 0 1rem;
+    }
+
 }
