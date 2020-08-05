@@ -45,9 +45,11 @@ def audio_url(aud_list):
             x = sound['sound']['audio'][0]
             if x.isdigit() or x in string.punctuation:
                 sub = "number"
-            elif x == "b":
+            # Had to add checks for ix in bix and the second g in gg because words that started with b or g were
+            # not working. Looking back it was silly to only check the first letter
+            elif x == "b" and sound['sound']['audio'][1] == 'i' and sound['sound']['audio'][2] == 'x':
                 sub = "bix"
-            elif x == "g":
+            elif x == "g" and sound['sound']['audio'][1] == 'g':
                 sub = "gg"
             else:
                 sub = x

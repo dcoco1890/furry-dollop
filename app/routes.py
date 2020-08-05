@@ -100,7 +100,7 @@ def upload():
             flash("not working")
             return redirect("/lookup")
         else:
-            word = word.lower()
+            word = word.title()
             if strip_fix(defined_word) is None:
                 return render_template("lookup.html", noword=defined_word, q=word)
             return render_template("lookup.html", yesword=strip_fix(defined_word), word=word)
