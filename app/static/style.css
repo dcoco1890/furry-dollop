@@ -41,6 +41,10 @@ div#login {
     flex-direction: column;
 }
 
+svg {
+    cursor: pointer;
+}
+
 /* -------- Lookup page --------- */
 
 svg.bi.bi-music-note-beamed {

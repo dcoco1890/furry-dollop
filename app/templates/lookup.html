@@ -146,11 +146,11 @@ searchNew.on('click', function(e){
 function playSound(e) {
     let stp = e.target.dataset.num;
     console.log(stp)
-    let x = $('audio#'+stp+'.music-note')
+    let x = document.getElementById(stp).getAttribute('src');
     console.log(x)
-    let src = x.attr('src')
+<!--    let src = x.attr('src')-->
     let obj = document.createElement("audio");
-    obj.src = src;
+    obj.src = x;
     obj.play()
 
 }
