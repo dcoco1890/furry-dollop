@@ -88,9 +88,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-8 order-md-2">
-                            {% for item in word.shortdef %}
-                            <p>{{ item }}</p>
-                            {% endfor %}
+                            <p>{{ word.shortdef|join('; ') }}</p>
                         </div>
                         <div class="col-md-4 order-md-1">
                             {% if word.audio %}
@@ -130,9 +128,9 @@
 </div>
 {% endblock %}
 
-<!--Scripting block-->
-{% block script %}
 <script>
+
+<!--Script by Cohen 4 CS50 -->
 
 <!--Through a great deal of trial and error, I came up with this function to allow a 're-search' of words-->
 <!--that the MW dictionary came back with as alternates to a bad search. Grabs class list, on click grabs text, -->
@@ -149,27 +147,26 @@ searchNew.on('click', function(e){
     console.log(form);
 });
 
-function playSound(e) {
-    let stp = e.target.dataset.num;
-    console.log(stp)
-    let src = document.getElementById(stp).getAttribute('src');
-
-    if (!src) {
-        let stp = e.target.dataset.num;
-        let y = document.getElementById(stp);
-        let src = y.getAttribute("src")
-    }
-
-    let obj = document.createElement("audio");
+<!--Cleaned this up a bit by having it do way less and sending it the id of the sound I want played on click-->
+function playSound(id) {
+    let src = document.getElementById(id).getAttribute('src');
+    let obj = document.createElement('audio');
     obj.src = src;
-    obj.play()
-
+    obj.play();
 }
 
+<!--There was an issue with the svg not playing sounds when the 'path' part was clicked. Instead of sending the event to the-->
+<!--playsound function, I find the nearest id of the audio i want played and send that instead. -->
 document.addEventListener('click', function(e){
-   if (!e.target.matches('svg.bi-music-note-beamed')) return;
-   playSound(e);
-
+   if (e.target.matches('svg.bi-music-note-beamed')) {
+       let soundID = e.target.dataset.num;
+       playSound(soundID);
+   } else if (e.target.matches('path')) {
+       let soundID = e.target.parentElement.dataset.num;
+       playSound(soundID);
+   } else {
+     return;
+   }
 });
 
 
@@ -177,4 +174,6 @@ document.addEventListener('click', function(e){
 
 
 </script>
+<!--Scripting block-->
+{% block script %}
 {% endblock %}
