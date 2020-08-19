@@ -70,7 +70,11 @@
                 <div class="col">
                     <div class="row">
                         <div class="col-md-4">
+                            {% if word.homnum %}
+                            <h3 class="text-capitalize"> {{ word.head }} <sup>{{ word.homnum }}</sup></h3>
+                            {% else %}
                             <h3 class="text-capitalize"> {{ word.head }} </h3>
+                            {% endif %}
                         </div>
                         <div class="col-md-8">
                             {% if word.stems %}
@@ -128,10 +132,12 @@
 </div>
 {% endblock %}
 
+
+<!--Scripting block-->
+{% block script %}
 <script>
 
 <!--Script by Cohen 4 CS50 -->
-
 <!--Through a great deal of trial and error, I came up with this function to allow a 're-search' of words-->
 <!--that the MW dictionary came back with as alternates to a bad search. Grabs class list, on click grabs text, -->
 <!--gets form, and changes the value of a hidden input to that text, then submits the form. This triggers a page -->
@@ -148,6 +154,7 @@ searchNew.on('click', function(e){
 });
 
 <!--Cleaned this up a bit by having it do way less and sending it the id of the sound I want played on click-->
+
 function playSound(id) {
     let src = document.getElementById(id).getAttribute('src');
     let obj = document.createElement('audio');
@@ -157,6 +164,7 @@ function playSound(id) {
 
 <!--There was an issue with the svg not playing sounds when the 'path' part was clicked. Instead of sending the event to the-->
 <!--playsound function, I find the nearest id of the audio i want played and send that instead. -->
+
 document.addEventListener('click', function(e){
    if (e.target.matches('svg.bi-music-note-beamed')) {
        let soundID = e.target.dataset.num;
@@ -169,11 +177,5 @@ document.addEventListener('click', function(e){
    }
 });
 
-
-
-
-
 </script>
-<!--Scripting block-->
-{% block script %}
 {% endblock %}

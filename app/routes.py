@@ -101,8 +101,10 @@ def upload():
             return redirect("/lookup")
         else:
             word = word.title()
-            if strip_fix(defined_word) is None:
+            results = strip_fix(defined_word)
+            if results is None:
                 return render_template("lookup.html", noword=defined_word, q=word)
-            return render_template("lookup.html", yesword=strip_fix(defined_word), word=word)
+            return jsonify(defined_word)
+            # return render_template("lookup.html", yesword=results, word=word)
     else:
         return render_template("lookup.html")

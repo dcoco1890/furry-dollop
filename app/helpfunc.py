@@ -1,4 +1,4 @@
-
+import itertools
 import os
 import requests
 import string
@@ -81,15 +81,59 @@ def strip_fix(list_words=None):
         fixed_list = []
         for item in list_words:
             try:
-                new_item = {"shortdef": item["shortdef"], "head": item["hwi"]["hw"], "stems": item["meta"]["stems"]}
+                new_item = dict(shortdef=item["shortdef"], head=item["hwi"]["hw"], stems=item["meta"]["stems"],
+                                speechpart=item['fl'])
+                if "quotes" in item:
+                    new_item["quotes"] = item["quotes"]
+                if "hom" in item:
+                    new_item["homnum"] = str(item["hom"])
                 try:
                     new_item["audio"] = audio_url(item["hwi"]["prs"])
-                    new_item["quotes"] = item["quotes"]
-                except KeyError as e:
-                    print(f"the key [{e}] was not found for this entry")
+                except KeyError:
                     pass
+                for i in item['def']:
+                    flatboi = list(itertools.chain(*i['sseq']))
+                    for j in flatboi:
+                        print(j[1]['dt'][0][1])
+                        try:
+                            print(j[1]['sdsense'])
+                        except KeyError:
+                            pass
+                print("____________")
                 fixed_list.append(new_item)
             except TypeError as e:
                 print(f"{e}")
                 return None
+        for thing in fixed_list:
+            print(thing)
+
         return fixed_list
+
+
+
+# def json_extract(obj, key):
+#     """Recursively fetch values from nested JSON."""
+#     arr = []
+#
+#     def extract(obj, arr, key):
+#         """Recursively search for values of key in JSON tree."""
+#         if isinstance(obj, dict):
+#             for k, v in obj.items():
+#                 if k == key and isinstance(v, list):
+#                     narr = []
+#                     for item in v:
+#                         narr.append(item)
+#                     arr.append(narr)
+#                 if isinstance(v, (dict, list)):
+#                     extract(v, arr, key)
+#                 elif k == key:
+#                     print("______________________")
+#                     print(k, v)
+#                     arr.append(v)
+#         elif isinstance(obj, list):
+#             for item in obj:
+#                 extract(item, arr, key)
+#         return arr
+#
+#     values = extract(obj, arr, key)
+#     return values
