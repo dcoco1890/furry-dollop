@@ -6,7 +6,7 @@ from flask import current_app as app
 from .models import db, User
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from .helpfunc import lookup_word, strip_fix
+from .helpfunc import lookup_word, strip_fix, login_required, create_deck
 
 
 @app.route("/", methods=['GET'])
@@ -104,7 +104,23 @@ def upload():
             results = strip_fix(defined_word)
             if results is None:
                 return render_template("lookup.html", noword=defined_word, q=word)
-            return jsonify(defined_word)
-            # return render_template("lookup.html", yesword=results, word=word)
+            # return jsonify(defined_word)
+            return render_template("lookup.html", yesword=results, word=word)
     else:
         return render_template("lookup.html")
+
+
+@login_required
+@app.route("/poker", methods=["GET", "POST"])
+def poker():
+    if request.method == "POST":
+        new_deck = create_deck()
+        print(new_deck)
+        session['deck_id'] = new_deck['deck_id']
+        return render_template("/poker.html", deck=new_deck)
+    else:
+        return render_template("/poker.html")
+
+
+
+

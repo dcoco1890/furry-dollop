@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+<!--Title-->
+{% block title %}
+<title>Poker</title>
+{% endblock %}
+
+<!--Nav -->
+{% block navlink %}
+<a class="nav-item nav-link" href="/">Home</a>
+<a class="nav-item nav-link active" href="/poker">Poker</a>
+<a class="nav-item nav-link" href="/lookup">Lookup</a>
+<a class="nav-item nav-link" href="#">Other</a>
+{% endblock %}
+
+<!--Content-->
+{% block main %}
+
+<h1>Texas Hold 'em</h1>
+<form action="/poker" method="post">
+<button id='draw' name='draw' type="submit" class="btn btn-outline-dark">Draw Cards</button>
+</form>
+
+{% if deck %}
+<p>{{ deck.deck_id }}</p>
+
+{% endif %}
+{% endblock %}
+
+<!--Scripting block-->
+{% block script %}
+<script>
+<!--document.getElementById('draw').addEventListener('click', draw);-->
+<!--function draw(){-->
+
+<!--}-->
+</script>
+{% endblock %}

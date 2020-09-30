@@ -81,8 +81,7 @@ def strip_fix(list_words=None):
         fixed_list = []
         for item in list_words:
             try:
-                new_item = dict(shortdef=item["shortdef"], head=item["hwi"]["hw"], stems=item["meta"]["stems"],
-                                speechpart=item['fl'])
+                new_item = dict(shortdef=item["shortdef"], head=item["hwi"]["hw"], stems=item["meta"]["stems"])
                 if "quotes" in item:
                     new_item["quotes"] = item["quotes"]
                 if "hom" in item:
@@ -91,15 +90,29 @@ def strip_fix(list_words=None):
                     new_item["audio"] = audio_url(item["hwi"]["prs"])
                 except KeyError:
                     pass
+                try:
+                    new_item["speechpart"] = item["fl"]
+                except KeyError:
+                    print("FL NOT FOUND")
+                    pass
                 for i in item['def']:
-                    flatboi = list(itertools.chain(*i['sseq']))
-                    for j in flatboi:
-                        print(j[1]['dt'][0][1])
+                    main_def = []
+                    flat_boi = list(itertools.chain(*i['sseq']))
+                    for j in flat_boi:
+                        # main definition for a word
+                        dt = j[1]['dt'][0][1][4:]
+                        main_def.append(dt)
                         try:
+                            # another definition, sdsense
+                            # The sdsense should be inline with the preceding dt. The sd (sense divider)
+                            # is displayed in italics, preceded by a semicolon and space, and followed by a space.
+                            # divider = j[1]['sdsense']['sd']
+                            # another_dt = j[1][]
                             print(j[1]['sdsense'])
                         except KeyError:
                             pass
-                print("____________")
+                    new_item['main_def'] = main_def
+
                 fixed_list.append(new_item)
             except TypeError as e:
                 print(f"{e}")
@@ -110,30 +123,17 @@ def strip_fix(list_words=None):
         return fixed_list
 
 
+def create_deck():
+    if session.get("playing") is None:
+        try:
+            r = requests.get("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1")
+            r.raise_for_status()
+        except requests.RequestException:
+            return None
+        try:
+            j = r.json()
+            return j
 
-# def json_extract(obj, key):
-#     """Recursively fetch values from nested JSON."""
-#     arr = []
-#
-#     def extract(obj, arr, key):
-#         """Recursively search for values of key in JSON tree."""
-#         if isinstance(obj, dict):
-#             for k, v in obj.items():
-#                 if k == key and isinstance(v, list):
-#                     narr = []
-#                     for item in v:
-#                         narr.append(item)
-#                     arr.append(narr)
-#                 if isinstance(v, (dict, list)):
-#                     extract(v, arr, key)
-#                 elif k == key:
-#                     print("______________________")
-#                     print(k, v)
-#                     arr.append(v)
-#         elif isinstance(obj, list):
-#             for item in obj:
-#                 extract(item, arr, key)
-#         return arr
-#
-#     values = extract(obj, arr, key)
-#     return values
+        except ValueError as e:
+            print(f"{e}")
+
